@@ -7,3 +7,6 @@
 #igonre data files
 *.json
 *.csv
+
+#ignore plots
+*.png
