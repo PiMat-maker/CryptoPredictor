@@ -1,12 +1,10 @@
-from datetime import datetime
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 import error
 
 
+@save_plot_decorator
 def heatmap(df, *columns, rows_limit=40):
-    print(columns)
     if len(columns) != 3:
         raise error.WrongArgsError(f"Wrong number of columns: {len(columns)}. Should be 3")
     permitted_types = ["int64", "float64"]
@@ -16,11 +14,9 @@ def heatmap(df, *columns, rows_limit=40):
     heatmap_df = df.pivot(index=columns[0], columns=columns[1], values=columns[2])
     heatmap_df[[heatmap_df.isna()]] = 0
 
-    svm = sns.heatmap(heatmap_df[:rows_limit], linewidths=.5)
-    figure = svm.get_figure()
-    figure.savefig(
-        f"{columns[2]}_heatmap_by_{columns[0]}_to_{columns[1]}_{datetime.now().strftime('%Y-%m-%d_%H_%M_%S')}.png",
-        format='png',
-        dpi=400
+    sns.heatmap(heatmap_df[:rows_limit], linewidths=.5)
+    annotate_plot(
+        title=f"{columns[2].capitalize()} by {columns[1]}",
+        x_label=columns[1],
+        y_label=columns[0]
     )
-    plt.show()
