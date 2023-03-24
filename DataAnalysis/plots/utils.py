@@ -1,3 +1,4 @@
+import functools
 import matplotlib.pyplot as plt
 
 graph_dir = 'saved_graphs'
@@ -7,6 +8,7 @@ def save_plot_decorator(plot_func):
 
     from datetime import datetime
 
+    @functools.wraps(plot_func)
     def save_plot(*args, **kwargs):
         plot_func(*args, **kwargs)
         plt.savefig(
